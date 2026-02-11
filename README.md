@@ -9,8 +9,8 @@
   / _` | | | | | | | '__|
  | (_| | |_| | |_| | |
   \__,_|\___/ \___/|_|    v1.3.1 by CYB3RMX, extension by sultanjke
-  -----------------------
-  >> URL Brute-Force Tool
+  
+>> URL Brute-Force Tool
 ```
 
 Fork of [`CYB3RMX/d00r`](https://github.com/CYB3RMX/d00r), extended for Ejudge.kz contest discovery workflows.
