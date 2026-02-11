@@ -20,7 +20,6 @@ white = '\u001b[1;37;40m'
 
 thread_num = 1 # Number of threads
 hits = []
-invalid_contest_hits = []
 login_page_hits = []
 permission_denied_hits = []
 hits_lock = threading.Lock()
@@ -193,15 +192,10 @@ def scanner():
                 with hits_lock:
                     hits.append((kn0ck, ret))
 
-            if "error: invalid contest" in title_lower:
-                print(f"[{red}!{white}] {red}Error: Invalid contest{white} => {red}{kn0ck}{white}")
-                with hits_lock:
-                    invalid_contest_hits.append(kn0ck)
-
             if "user login page" in title_lower:
                 with hits_lock:
                     login_page_hits.append((kn0ck, title))
-            
+
             if "permission denied" in title_lower:
                 contest_name = extract_contest_name(r.text)
                 if contest_name:
@@ -275,8 +269,8 @@ with open(report_file, "w", encoding="utf-8") as f:
         f.write("No pages matched title pattern: Permission denied\n")
 
 print(f"\n{cyan}[{red}*{cyan}]{white} Report saved to {green}{report_file}{white} (login: {len(unique_login_hits)}, permission denied: {len(unique_permission_denied_hits)}).")
-if invalid_contest_hits:
-    print(f"{cyan}[{red}*{cyan}]{white} Invalid contest title detected on {red}{len(invalid_contest_hits)}{white} URL(s).")
+if unique_login_hits:
+    print(f"{cyan}[{red}*{cyan}]{white} User login page title detected on {green}{len(unique_login_hits)}{white} URL(s).")
 if unique_permission_denied_hits:
     print(f"{cyan}[{red}*{cyan}]{white} Permission denied title detected on {red}{len(unique_permission_denied_hits)}{white} URL(s).")
 print(f"{cyan}[{red}*{cyan}]{white} Requests sent: {attempted_requests} | Errors: {request_errors} | Status matches: {len(hits)}")
